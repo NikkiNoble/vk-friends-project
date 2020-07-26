@@ -32,6 +32,11 @@ class User:
         )
         return response.json()
 
+    def __and__(self, other):
+        first_id = self.user_id
+        second_id = other.user_id
+        return self.get_mutual_friends(first_id, second_id)
+
     def get_mutual_friends(self, user_id1, user_id2):
         try:
             user1 = set(self.get_friends(user_id1)['response']['items'])
@@ -58,7 +63,8 @@ token = '10b2e6b1a90a01875cfaa0d2dd307b7a73a15ceb1acf0c0f2a9e9c586f3b597815652e5
 first_user_id = int(input('Введите id первого пользователя: '))
 second_user_id = int(input('Введите id второго пользователя: '))
 user = User(token, first_user_id)
-user.get_mutual_friends(first_user_id, second_user_id)
+other_user = User(token, second_user_id)
+user & other_user
 print(user)
 
 
